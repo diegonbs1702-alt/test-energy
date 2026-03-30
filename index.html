@@ -1,336 +1,491 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nuñez Fumigaciones - Diagnóstico Gratuito</title>
+    <title>Test Energy | Paneles Solares en Mérida</title>
+    <meta name="description" content="Deje de pagarle a CFE. Instalación de paneles solares en Mérida con $0 inversión inicial. Calcule su ahorro.">
     
-    <!-- ======================================================= -->
-    <!-- 🟢 1. PEGA TU PÍXEL DE META (FACEBOOK) AQUÍ DEBAJO      -->
-    <!-- ======================================================= -->
-    <!-- Ejemplo: <script> !function(f,b,e,v,n,t,s) ... </script> -->
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
 
-
-
-    <!-- ======================================================= -->
-    <!-- 🟢 2. PEGA TU PÍXEL DE GOOGLE ANALYTICS/ADS AQUÍ DEBAJO -->
-    <!-- ======================================================= -->
-    <!-- Ejemplo: <script async src="https://www.googletagmanager...></script> -->
-
-
-
-    <!-- Cargar Tailwind CSS y React -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-</head>
-<body class="bg-slate-50 font-sans text-slate-800">
-    
-    <div id="root"></div>
-
-    <script type="text/babel">
-        const { useState } = React;
-
-        // Componentes de Iconos
-        const Icon = ({ path, className }) => (
-            <svg className={className} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" dangerouslySetInnerHTML={{ __html: path }}></svg>
-        );
-        const ShieldCheck = ({className}) => <Icon className={className} path='<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/>' />;
-        const Bug = ({className}) => <Icon className={className} path='<path d="m8 2 1.88 1.88"/><path d="M14.12 3.88 16 2"/><path d="M9 7.13v-1a3.003 3.003 0 1 1 6 0v1"/><path d="M12 20c-3.3 0-6-2.7-6-6v-3a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v3c0 3.3-2.7 6-6 6"/><path d="M12 20v-9"/><path d="M6.53 9C4.6 8.8 3 7.1 3 5"/><path d="M6 13H2"/><path d="M3 21c0-2.1 1.7-3.9 3.8-4"/><path d="M17.47 9c1.93-.2 3.53-1.9 3.53-4"/><path d="M18 13h4"/><path d="M21 21c0-2.1-1.7-3.9-3.8-4"/>' />;
-        const Home = ({className}) => <Icon className={className} path='<path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>' />;
-        const Clock = ({className}) => <Icon className={className} path='<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>' />;
-        const ArrowRight = ({className}) => <Icon className={className} path='<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>' />;
-        const CheckCircle2 = ({className}) => <Icon className={className} path='<circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>' />;
-        const Star = ({className}) => <svg className={className} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>;
-        const ShieldAlert = ({className}) => <Icon className={className} path='<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M12 8v4"/><path d="M12 16h.01"/>' />;
-        const ChevronRight = ({className}) => <Icon className={className} path='<path d="m9 18 6-6-6-6"/>' />;
-        const MapPin = ({className}) => <Icon className={className} path='<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>' />;
-        const Phone = ({className}) => <Icon className={className} path='<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>' />;
-
-        function App() {
-            const [step, setStep] = useState(0);
-            const [isSubmitting, setIsSubmitting] = useState(false);
-            const [answers, setAnswers] = useState({
-                plaga: '',
-                ubicacion: '',
-                tiempo: '',
-                nombre: '',
-                telefono: ''
-            });
-            const [showOffer, setShowOffer] = useState(false);
-
-            const handleOptionSelect = (field, value) => {
-                setAnswers(prev => ({ ...prev, [field]: value }));
-                setStep(prev => prev + 1);
-            };
-
-            // =========================================================================
-            // 🟢 3. CONEXIÓN CON MAKE.COM (INTEGROMAT)
-            // =========================================================================
-            const handleFormSubmit = async (e) => {
-                e.preventDefault();
-                setIsSubmitting(true);
-
-                // REEMPLAZA ESTA URL CON TU WEBHOOK DE MAKE.COM
-                const MAKE_WEBHOOK_URL = "https://hook.us1.make.com/tu-codigo-unico-de-webhook";
-
-                try {
-                    // Enviamos los datos capturados a Make
-                    await fetch(MAKE_WEBHOOK_URL, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(answers)
-                    });
-                    console.log("✅ Datos enviados a Make correctamente");
-                } catch (error) {
-                    console.error("❌ Error enviando a Make:", error);
-                    // Aunque falle Make, no queremos bloquear al usuario, así que seguimos adelante.
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#cd7f32',
+                        dark: '#333333',
+                        light: '#ffffff',
+                    },
+                    fontFamily: {
+                        sans: ['system-ui', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'sans-serif'],
+                    }
                 }
-
-                setIsSubmitting(false);
-                setShowOffer(true); // Mostramos la oferta irresistible
-            };
-
-            const whatsappNumber = "529990000000"; 
-            const whatsappMessage = encodeURIComponent(`Hola, acabo de completar el diagnóstico. Mi nombre es ${answers.nombre}, tengo un problema de ${answers.plaga} y quiero reservar el paquete Escudo Mérida por $990 MXN.`);
-
-            return (
-                <div className="min-h-screen flex flex-col">
-                    
-                    <header className="bg-white border-b border-slate-200 sticky top-0 z-50">
-                        <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-                            <div className="flex items-center gap-2">
-                                <ShieldCheck className="text-blue-600 w-8 h-8" />
-                                <span className="text-xl font-bold tracking-tight text-slate-900">Nuñez Fumigaciones</span>
-                            </div>
-                            <div className="hidden sm:flex items-center gap-2 text-sm font-semibold text-slate-600 bg-slate-100 px-3 py-1.5 rounded-full">
-                                <MapPin className="w-4 h-4 text-blue-600" />
-                                Solo en Mérida, Yucatán
-                            </div>
-                        </div>
-                    </header>
-
-                    <div className="flex-grow">
-                    {!showOffer ? (
-                        <main className="max-w-4xl mx-auto px-4 py-12 md:py-20">
-                            <div className="text-center mb-10">
-                                <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight mb-4 leading-tight">
-                                    Descubre qué plaga amenaza tu hogar y <span className="text-blue-600">cómo eliminarla para siempre.</span>
-                                </h1>
-                                <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto">
-                                    Realiza este diagnóstico de 30 segundos para recibir un plan de acción exacto y un presupuesto personalizado. Gratis y sin compromiso.
-                                </p>
-                            </div>
-
-                            <div className="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden max-w-2xl mx-auto transition-all">
-                                <div className="bg-blue-600 h-2 w-full">
-                                    <div className="bg-green-400 h-full transition-all duration-500 ease-in-out" style={{ width: `${(step / 4) * 100}%` }}></div>
-                                </div>
-                                
-                                <div className="p-6 md:p-10">
-                                    {step === 0 && (
-                                        <div className="animate-fade-in">
-                                            <h2 className="text-2xl font-bold mb-6 flex items-center gap-3">
-                                                <Bug className="text-blue-600 w-6 h-6" /> ¿Qué has visto en tu casa últimamente?
-                                            </h2>
-                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                                {['Cucarachas', 'Hormigas', 'Mosquitos / Dengue', 'Termitas', 'Roedores', 'No estoy seguro'].map((item) => (
-                                                    <button key={item} onClick={() => handleOptionSelect('plaga', item)} className="p-4 border-2 border-slate-200 rounded-xl text-left font-semibold text-slate-700 hover:border-blue-600 hover:bg-blue-50 transition-colors flex justify-between items-center group">
-                                                        {item} <ChevronRight className="w-5 h-5 text-slate-400 group-hover:text-blue-600" />
-                                                    </button>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    )}
-
-                                    {step === 1 && (
-                                        <div className="animate-fade-in">
-                                            <h2 className="text-2xl font-bold mb-6 flex items-center gap-3">
-                                                <Home className="text-blue-600 w-6 h-6" /> ¿Dónde es el problema principal?
-                                            </h2>
-                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                                {['Cocina y Baños', 'Jardín y Exteriores', 'Habitaciones', 'Techos / Madera', 'En toda la casa'].map((item) => (
-                                                    <button key={item} onClick={() => handleOptionSelect('ubicacion', item)} className="p-4 border-2 border-slate-200 rounded-xl text-left font-semibold text-slate-700 hover:border-blue-600 hover:bg-blue-50 transition-colors flex justify-between items-center group">
-                                                        {item} <ChevronRight className="w-5 h-5 text-slate-400 group-hover:text-blue-600" />
-                                                    </button>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    )}
-
-                                    {step === 2 && (
-                                        <div className="animate-fade-in">
-                                            <h2 className="text-2xl font-bold mb-6 flex items-center gap-3">
-                                                <Clock className="text-blue-600 w-6 h-6" /> ¿Hace cuánto notaste el problema?
-                                            </h2>
-                                            <div className="grid grid-cols-1 gap-4">
-                                                {['Acaba de empezar (Menos de 1 semana)', 'Un par de semanas (Ya intenté insecticidas)', 'Lleva meses (Es una plaga persistente)'].map((item) => (
-                                                    <button key={item} onClick={() => handleOptionSelect('tiempo', item)} className="p-4 border-2 border-slate-200 rounded-xl text-left font-semibold text-slate-700 hover:border-blue-600 hover:bg-blue-50 transition-colors flex justify-between items-center group">
-                                                        {item} <ChevronRight className="w-5 h-5 text-slate-400 group-hover:text-blue-600" />
-                                                    </button>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    )}
-
-                                    {step === 3 && (
-                                        <div className="animate-fade-in">
-                                            <div className="text-center mb-6">
-                                                <ShieldAlert className="w-16 h-16 text-green-500 mx-auto mb-4" />
-                                                <h2 className="text-2xl font-bold mb-2">¡Diagnóstico Listo!</h2>
-                                                <p className="text-slate-600">Basado en tus respuestas, tenemos la solución exacta para tu problema de <strong>{answers.plaga}</strong>. Ingresa tus datos para ver tu reporte y desbloquear una oferta especial.</p>
-                                            </div>
-                                            
-                                            <form onSubmit={handleFormSubmit} className="space-y-4">
-                                                <div>
-                                                    <label className="block text-sm font-semibold mb-1 text-slate-700">Tu Nombre</label>
-                                                    <input type="text" required className="w-full p-4 border-2 border-slate-200 rounded-xl focus:outline-none focus:border-blue-600" placeholder="Ej. Carlos Pérez" value={answers.nombre} onChange={(e) => setAnswers({...answers, nombre: e.target.value})} />
-                                                </div>
-                                                <div>
-                                                    <label className="block text-sm font-semibold mb-1 text-slate-700">Teléfono (WhatsApp)</label>
-                                                    <input type="tel" required className="w-full p-4 border-2 border-slate-200 rounded-xl focus:outline-none focus:border-blue-600" placeholder="Ej. 999 123 4567" value={answers.telefono} onChange={(e) => setAnswers({...answers, telefono: e.target.value})} />
-                                                </div>
-                                                <button type="submit" disabled={isSubmitting} className="w-full bg-blue-600 text-white font-bold text-lg p-4 rounded-xl hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200 flex items-center justify-center gap-2 mt-4 disabled:opacity-70">
-                                                    {isSubmitting ? 'Analizando...' : 'Ver mi Solución Exacta'} <ArrowRight className="w-5 h-5" />
-                                                </button>
-                                                <p className="text-xs text-center text-slate-400 mt-3">
-                                                    Tus datos están 100% seguros. No te enviaremos spam.
-                                                </p>
-                                            </form>
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-                        </main>
-                    ) : (
-                        <main className="animate-fade-in pb-20">
-                            <div className="bg-red-600 text-white text-center py-3 px-4 font-medium">
-                                🔥 <strong>Atención {answers.nombre}:</strong> Por la temporada de calor en Mérida, los problemas de {answers.plaga || 'plagas'} empeoran. Solo aceptamos 15 servicios nuevos esta semana.
-                            </div>
-
-                            <div className="max-w-5xl mx-auto px-4 py-12">
-                                <div className="text-center mb-12">
-                                    <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 leading-tight">
-                                        Aquí tienes tu Plan de Ataque.
-                                    </h2>
-                                    <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-                                        La mayoría rocían agua con olor, te cobran y desaparecen cuando los insectos vuelven. <strong className="text-blue-600">Nosotros no.</strong>
-                                    </p>
-                                </div>
-
-                                <div className="bg-white rounded-3xl shadow-xl border border-slate-200 overflow-hidden lg:flex mb-12">
-                                    <div className="p-8 lg:w-3/5">
-                                        <h3 className="text-2xl font-bold mb-6 text-slate-900">El Paquete "Escudo Mérida" 🛡️</h3>
-                                        <p className="text-slate-600 mb-8">Diseñado específicamente para el clima húmedo de Yucatán y para erradicar tu problema de {answers.plaga}, sin riesgo para mascotas o familia.</p>
-                                        
-                                        <ul className="space-y-4">
-                                            <li className="flex items-start gap-4">
-                                                <div className="bg-green-100 p-1 rounded-full shrink-0 mt-1"><CheckCircle2 className="w-5 h-5 text-green-600" /></div>
-                                                <div>
-                                                    <h4 className="font-bold text-slate-900">Fumigación Profunda Interior y Exterior</h4>
-                                                    <p className="text-sm text-slate-600">Eliminación total en nidos y criaderos. Productos de grado hospitalario.</p>
-                                                    <span className="text-xs font-semibold text-slate-400 line-through">Valor: $1,200 MXN</span>
-                                                </div>
-                                            </li>
-                                            <li className="flex items-start gap-4">
-                                                <div className="bg-green-100 p-1 rounded-full shrink-0 mt-1"><CheckCircle2 className="w-5 h-5 text-green-600" /></div>
-                                                <div>
-                                                    <h4 className="font-bold text-slate-900">Barrera Química Perimetral</h4>
-                                                    <p className="text-sm text-slate-600">Evita que nuevas plagas de los vecinos o la calle entren a tu propiedad.</p>
-                                                    <span className="text-xs font-semibold text-slate-400 line-through">Valor: $800 MXN</span>
-                                                </div>
-                                            </li>
-                                            <li className="flex items-start gap-4">
-                                                <div className="bg-blue-100 p-1 rounded-full shrink-0 mt-1"><Star className="w-5 h-5 text-blue-600" /></div>
-                                                <div>
-                                                    <h4 className="font-bold text-slate-900">BONO: Refuerzo Anti-Mosquitos</h4>
-                                                    <p className="text-sm text-slate-600">Tratamiento para patios que protege a tu familia del Dengue.</p>
-                                                    <span className="text-xs font-semibold text-slate-400 line-through">Valor: $600 MXN</span>
-                                                </div>
-                                            </li>
-                                        </ul>
-
-                                        <div className="mt-8 p-5 bg-blue-50 rounded-xl border border-blue-100">
-                                            <div className="flex items-center gap-3 mb-2">
-                                                <ShieldCheck className="w-6 h-6 text-blue-600" />
-                                                <h4 className="font-bold text-lg text-slate-900">Garantía Incondicional de 30 Días</h4>
-                                            </div>
-                                            <p className="text-sm text-slate-700">
-                                                Nuestra promesa es simple: <strong>Si ves un solo bicho vivo en los siguientes 30 días, regresamos y re-fumigamos GRATIS.</strong> Cero riesgos para ti.
-                                            </p>
-                                        </div>
-                                    </div>
-
-                                    <div className="bg-slate-900 text-white p-8 lg:w-2/5 flex flex-col justify-center relative overflow-hidden">
-                                        <div className="absolute -top-10 -right-10 opacity-10">
-                                            <Bug className="w-48 h-48" />
-                                        </div>
-                                        
-                                        <h3 className="text-xl font-medium text-slate-300 mb-2 z-10">Valor Total: <span className="line-through text-red-400">$2,600 MXN</span></h3>
-                                        <div className="mb-6 z-10">
-                                            <span className="text-sm font-semibold uppercase tracking-wider text-blue-400">Oferta Exclusiva Hoy</span>
-                                            <div className="text-5xl font-black mt-1">$990 <span className="text-xl font-medium text-slate-400">MXN</span></div>
-                                        </div>
-                                        
-                                        <a href={`https://wa.me/${whatsappNumber}?text=${whatsappMessage}`} target="_blank" rel="noreferrer" className="w-full bg-green-500 hover:bg-green-400 text-slate-900 text-center font-extrabold text-lg p-5 rounded-xl transition-all hover:scale-105 shadow-xl shadow-green-500/20 z-10 flex items-center justify-center gap-2">
-                                            <Phone className="w-5 h-5" /> Reservar por WhatsApp
-                                        </a>
-                                        
-                                        <p className="text-sm text-center text-slate-400 mt-4 z-10">
-                                            Respuesta rápida. Sin cargos ocultos.
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <div className="mt-16 text-center">
-                                    <h3 className="text-2xl font-bold text-slate-900 mb-8">Por qué familias en Mérida confían en nosotros:</h3>
-                                    <div className="grid md:grid-cols-3 gap-6 text-left">
-                                        {[
-                                            { name: "María F. (Norte de Mérida)", text: "Solo Nuñez Fumigaciones resolvió el problema de raíz. No huele a químicos feos." },
-                                            { name: "Jorge M. (Cholul)", text: "El bono de mosquitos es real. Por fin pudimos salir al patio a cenar. Muy profesionales." },
-                                            { name: "Laura T. (Fco. de Montejo)", text: "Aplicaron su garantía al mes cuando vi unas hormiguitas, sin cobrarme un peso extra." }
-                                        ].map((testimonial, i) => (
-                                            <div key={i} className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-                                                <div className="flex gap-1 mb-3 text-yellow-400">
-                                                    <Star className="w-4 h-4" /><Star className="w-4 h-4" /><Star className="w-4 h-4" /><Star className="w-4 h-4" /><Star className="w-4 h-4" />
-                                                </div>
-                                                <p className="text-slate-600 mb-4 text-sm italic">"{testimonial.text}"</p>
-                                                <p className="font-bold text-slate-900 text-sm">- {testimonial.name}</p>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
-                        </main>
-                    )}
-                    </div>
-
-                    <footer className="bg-slate-900 text-slate-400 py-8 text-center text-sm mt-auto">
-                        <div className="max-w-4xl mx-auto px-4 flex flex-col items-center">
-                            <ShieldCheck className="w-8 h-8 text-slate-600 mb-4" />
-                            <p>© {new Date().getFullYear()} Nuñez Fumigaciones. Mérida, Yucatán.</p>
-                            <p className="mt-2 text-slate-500">Protegiendo tu hogar, tu salud y tu tranquilidad.</p>
-                        </div>
-                    </footer>
-                </div>
-            );
+            }
         }
-
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);
     </script>
-    
+
+    <!-- Custom Styles for Animations and Slider -->
     <style>
-        .animate-fade-in {
-            animation: fadeIn 0.5s ease-in-out;
+        /* Speed Optimization: Content Visibility for sections below fold */
+        .content-section {
+            content-visibility: auto;
+            contain-intrinsic-size: 1000px;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+
+        /* Native Scroll Reveal Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform, opacity;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reveal-scale {
+            opacity: 0;
+            transform: scale(0.95);
+            transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform, opacity;
+        }
+        .reveal-scale.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-40px);
+            transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-left.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Custom Slider Styling */
+        input[type=range] {
+            -webkit-appearance: none;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 24px;
+            width: 24px;
+            border-radius: 50%;
+            background: #333333;
+            cursor: pointer;
+            margin-top: -8px;
+            border: 2px solid #cd7f32;
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 8px;
+            cursor: pointer;
+            background: #e5e7eb;
+            border-radius: 4px;
         }
     </style>
+</head>
+<body class="font-sans text-dark bg-light selection:bg-primary selection:text-light">
+
+    <!-- NAVEGACIÓN -->
+    <nav class="fixed w-full top-0 bg-white/90 backdrop-blur-md z-50 border-b border-gray-100">
+        <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <svg class="text-primary w-8 h-8" fill="#cd7f32" viewBox="0 0 24 24" stroke="none"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                <span class="text-2xl font-black tracking-tight">Test<span class="text-primary">Energy</span></span>
+            </div>
+            <a href="#cotizar" class="hidden md:inline-flex items-center justify-center bg-primary hover:bg-[#b8722c] text-light font-bold px-6 py-2.5 rounded-full transition-colors duration-200">
+                Verificar Viabilidad
+            </a>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="pt-32 pb-20 md:pt-40 md:pb-28 px-6 relative overflow-hidden">
+        <div class="absolute top-0 right-0 -z-10 w-96 h-96 bg-primary rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
+        <div class="max-w-4xl mx-auto text-center reveal active">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#fcf5eb] text-sm font-bold text-[#8a5521] mb-6 border border-primary/30">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                Alerta Mérida: Las tarifas de CFE subirán un 7.8% este año.
+            </div>
+            <h1 class="text-5xl md:text-7xl font-black leading-[1.1] tracking-tight mb-8">
+                Deje de Pagarle a la CFE y Empiece a <span class="bg-gradient-to-r from-[#e39c57] to-primary bg-clip-text text-transparent">Cobrarle al Sol de Mérida.</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-600 mb-10 leading-relaxed font-medium">
+                Instalación de Paneles Solares Premium con <strong class="text-dark bg-primary/20 px-1">$0 de inversión inicial</strong>. Ahorre desde el primer mes o le devolvemos su dinero. 
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <a href="#cotizar" class="w-full sm:w-auto bg-dark hover:bg-gray-800 text-white font-bold text-lg px-8 py-4 rounded-full flex items-center justify-center gap-2 transition-transform transform hover:scale-105">
+                    Calcular mi Ahorro Ahora 
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                </a>
+                <span class="text-sm text-gray-500 font-medium">
+                    * Solo 10 cupos disponibles este mes.
+                </span>
+            </div>
+        </div>
+    </section>
+
+    <!-- CALCULATOR SECTION -->
+    <section class="py-20 bg-gray-50 px-6 border-y border-gray-100 content-section">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-12 reveal">
+                <h2 class="text-4xl font-black mb-4">El Verdadero Costo de No Hacer Nada</h2>
+                <p class="text-lg text-gray-600">Descubra cuánto dinero le está regalando a CFE sin obtener ningún activo a cambio.</p>
+            </div>
+
+            <div class="bg-white rounded-3xl shadow-xl p-8 md:p-12 border border-gray-100 reveal">
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <label class="block text-lg font-bold mb-6">
+                            ¿Cuánto paga en su recibo bimestral de CFE?
+                        </label>
+                        <div id="bill-display" class="text-5xl font-black text-primary mb-6">
+                            $3,500 MXN
+                        </div>
+                        <input 
+                            id="bill-slider"
+                            type="range" 
+                            min="1000" 
+                            max="20000" 
+                            step="500" 
+                            value="3500" 
+                            class="w-full h-3 bg-gray-200 rounded-lg outline-none"
+                        />
+                        <div class="flex justify-between text-sm text-gray-400 font-bold mt-2">
+                            <span>$1,000</span>
+                            <span>$20,000+</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-dark text-white rounded-2xl p-8 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-primary opacity-10 rounded-full blur-2xl"></div>
+                        <h3 class="text-xl font-bold text-gray-300 mb-2">En 10 años, usted le regalará a CFE:</h3>
+                        <div id="loss-display" class="text-4xl md:text-5xl font-black text-red-400 mb-6">
+                            $294,000 MXN*
+                        </div>
+                        <div class="space-y-4">
+                            <div class="flex items-start gap-3">
+                                <svg class="w-6 h-6 text-primary flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                <p class="text-sm text-gray-300">Con Test Energy, esa misma cantidad paga su sistema propio en una fracción del tiempo.</p>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <svg class="w-6 h-6 text-primary flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                <p class="text-sm text-gray-300">Genera energía GRATIS los siguientes 15+ años.</p>
+                            </div>
+                        </div>
+                        <div class="mt-6 pt-6 border-t border-gray-800 text-xs text-gray-500">
+                            *Cálculo incluye un 4% de inflación anual histórica en tarifas eléctricas DAC y alto consumo.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TRIPLE GUARANTEE -->
+    <section class="py-24 px-6 bg-white content-section">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-4xl md:text-5xl font-black mb-6">El Riesgo lo Asumimos Nosotros.</h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">Nuestra "Triple Garantía Blindada" asegura que la única sorpresa que tendrá será lo poco que pagará en su próximo recibo.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Item 1 -->
+                <div class="bg-[#fcf5eb] p-8 rounded-3xl border border-primary/50 hover:shadow-lg transition-shadow reveal" style="transition-delay: 0ms;">
+                    <div class="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center text-light mb-6">
+                        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">1. Generación Garantizada</h3>
+                    <p class="text-gray-700 leading-relaxed">Diseñamos con precisión. Si su sistema no produce la energía que prometimos en el contrato, nosotros pagamos la diferencia a CFE de nuestro bolsillo.</p>
+                </div>
+                <!-- Item 2 -->
+                <div class="bg-[#fcf5eb] p-8 rounded-3xl border border-primary/50 hover:shadow-lg transition-shadow reveal" style="transition-delay: 200ms;">
+                    <div class="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center text-light mb-6">
+                        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">2. Cero Daños Estructurales</h3>
+                    <p class="text-gray-700 leading-relaxed">Olvídese de las goteras. Nuestra instalación incluye peritaje estructural y sellado de grado industrial con garantía escrita contra filtraciones.</p>
+                </div>
+                <!-- Item 3 -->
+                <div class="bg-[#fcf5eb] p-8 rounded-3xl border border-primary/50 hover:shadow-lg transition-shadow reveal" style="transition-delay: 400ms;">
+                    <div class="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center text-light mb-6">
+                        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">3. Ahorro Inmediato</h3>
+                    <p class="text-gray-700 leading-relaxed">Si elige nuestro plan de financiamiento $0 Inversión, su pago mensual por los paneles siempre será menor a lo que le pagaba a CFE. Ahorra desde el Día 1.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCAL AUTHORITY -->
+    <section class="py-20 px-6 bg-dark text-white content-section">
+        <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-12">
+            <div class="md:w-1/2 reveal-left">
+                <svg class="w-16 h-16 text-primary mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                <h2 class="text-4xl md:text-5xl font-black mb-6">Diseñado para Yucatán. Probado contra Huracanes.</h2>
+                <p class="text-gray-400 text-lg mb-6 leading-relaxed">
+                    El calor a 45°C en Mérida degrada los paneles baratos. Por eso solo utilizamos paneles Tier-1 que mantienen su eficiencia bajo el sol extremo.
+                </p>
+                <p class="text-gray-400 text-lg leading-relaxed">
+                    Además, nuestras estructuras de montaje están certificadas para resistir vientos de huracanes Categoría 5. Duerme tranquilo mientras el sol paga tus recibos.
+                </p>
+            </div>
+            <div class="md:w-1/2 w-full reveal-scale">
+                <div class="aspect-square bg-gradient-to-tr from-primary to-[#8a5521] rounded-3xl p-1 relative overflow-hidden shadow-2xl shadow-primary/20">
+                    <div class="w-full h-full bg-dark rounded-[23px] p-8 flex flex-col justify-center">
+                        <div class="space-y-6">
+                            <div class="flex items-center gap-4">
+                                <div class="w-3 h-3 rounded-full bg-primary"></div>
+                                <span class="text-xl font-bold">Resistencia: 280 km/h</span>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <div class="w-3 h-3 rounded-full bg-primary"></div>
+                                <span class="text-xl font-bold">Temperatura Óptima: +45°C</span>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <div class="w-3 h-3 rounded-full bg-primary"></div>
+                                <span class="text-xl font-bold">Vida Útil: 25+ Años</span>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <div class="w-3 h-3 rounded-full bg-primary"></div>
+                                <span class="text-xl font-bold">Garantía Inversor: 12 Años</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- THE STACK -->
+    <section class="py-24 px-6 bg-gray-50 content-section">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-4xl font-black mb-4">Lo que obtiene hoy:</h2>
+                <p class="text-xl text-gray-600">No solo instalamos paneles, le entregamos un activo financiero llave en mano.</p>
+            </div>
+
+            <div class="bg-white rounded-3xl shadow-lg border border-gray-100 overflow-hidden reveal">
+                <div class="p-8 md:p-12 space-y-6">
+                    <!-- Items -->
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center py-4 border-b border-gray-100 gap-2">
+                        <div class="flex items-center gap-3">
+                            <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span class="text-lg font-bold text-gray-800">Sistema de Paneles Solares Grado Tier-1</span>
+                        </div>
+                        <span class="font-black text-gray-400 bg-gray-100 px-4 py-1 rounded-full text-sm">$ Estimado</span>
+                    </div>
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center py-4 border-b border-gray-100 gap-2">
+                        <div class="flex items-center gap-3">
+                            <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span class="text-lg font-bold text-gray-800">Microinversores de Última Generación</span>
+                        </div>
+                        <span class="font-black text-gray-400 bg-gray-100 px-4 py-1 rounded-full text-sm">INCLUIDO</span>
+                    </div>
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center py-4 border-b border-gray-100 gap-2">
+                        <div class="flex items-center gap-3">
+                            <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span class="text-lg font-bold text-gray-800">Ingeniería Estructural y Peritaje</span>
+                        </div>
+                        <span class="font-black text-gray-400 bg-gray-100 px-4 py-1 rounded-full text-sm">$15,000 MXN - GRATIS</span>
+                    </div>
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center py-4 border-b border-gray-100 gap-2">
+                        <div class="flex items-center gap-3">
+                            <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span class="text-lg font-bold text-gray-800">Gestión Burocrática de Interconexión CFE</span>
+                        </div>
+                        <span class="font-black text-gray-400 bg-gray-100 px-4 py-1 rounded-full text-sm">$8,000 MXN - GRATIS</span>
+                    </div>
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center py-4 gap-2">
+                        <div class="flex items-center gap-3">
+                            <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span class="text-lg font-bold text-gray-800">App de Monitoreo en Tiempo Real</span>
+                        </div>
+                        <span class="font-black text-gray-400 bg-gray-100 px-4 py-1 rounded-full text-sm">$5,000 MXN - GRATIS</span>
+                    </div>
+                </div>
+                <div class="bg-primary p-8 text-center">
+                    <p class="text-xl font-black text-dark">
+                        Obtenga todo esto hoy con <span class="underline decoration-4 underline-offset-4">cero inversión inicial.</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FORM SECTION -->
+    <section id="cotizar" class="py-24 px-6 bg-white relative content-section">
+        <div class="max-w-6xl mx-auto flex flex-col lg:flex-row gap-16">
+            <div class="lg:w-5/12 reveal-left">
+                <h2 class="text-4xl md:text-6xl font-black leading-tight mb-6">
+                    Detenga la Hemorragia de Dinero.
+                </h2>
+                <p class="text-xl text-gray-600 mb-8">
+                    Actualmente limitamos nuestras instalaciones a <strong class="text-black">solo 10 proyectos al mes</strong> en Mérida para garantizar nuestros estándares de ingeniería.
+                </p>
+                <div class="bg-[#fff8e6] border-l-4 border-yellow-400 p-6 rounded-r-lg mb-8">
+                    <p class="font-bold text-yellow-800">
+                        ⚡ Programa de Financiamiento al 0% de interés disponible SOLO para recibos DAC o mayores a $2,500 MXN bimestrales.
+                    </p>
+                </div>
+                <p class="text-sm text-gray-500">
+                    Complete el formulario. Si cumple el perfil, nos comunicaremos en menos de 24 horas para agendar su estudio de viabilidad gratuito.
+                </p>
+            </div>
+
+            <div class="lg:w-7/12 reveal-scale">
+                <div class="bg-dark p-8 md:p-10 rounded-3xl text-white shadow-2xl">
+                    <h3 class="text-2xl font-bold mb-8">Paso 1: Filtro de Calificación</h3>
+                    
+                    <!-- Formulario -->
+                    <form id="lead-form" class="space-y-6 block">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-bold text-gray-400 mb-2">Nombre Completo</label>
+                                <input required type="text" class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all" placeholder="Ej. Carlos Mendoza">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-gray-400 mb-2">Teléfono Móvil</label>
+                                <input required type="tel" class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all" placeholder="999 123 4567">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-gray-400 mb-2">¿Cuánto paga a CFE en promedio? (Bimestral)</label>
+                            <select required class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all appearance-none">
+                                <option value="">Seleccione un rango...</option>
+                                <option value="under2k">Menos de $2,000 MXN (No califica para $0 enganche)</option>
+                                <option value="2k-5k">Entre $2,000 y $5,000 MXN</option>
+                                <option value="5k-10k">Entre $5,000 y $10,000 MXN</option>
+                                <option value="over10k">Más de $10,000 MXN (Tarifa DAC)</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-gray-400 mb-2">Código Postal (Solo Mérida y alrededores)</label>
+                            <input required type="text" maxlength="5" class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all" placeholder="Ej. 97100">
+                        </div>
+
+                        <div class="flex items-start gap-3 mt-4">
+                            <input required type="checkbox" id="ownership" class="mt-1 w-5 h-5 accent-primary bg-gray-800 border-gray-700 rounded cursor-pointer">
+                            <label for="ownership" class="text-sm text-gray-400 cursor-pointer select-none">
+                                Confirmo que soy el propietario del inmueble y cuento con espacio en el techo libre de sombra.
+                            </label>
+                        </div>
+
+                        <button type="submit" id="submit-btn" class="w-full bg-primary hover:bg-[#b8722c] text-light font-black text-lg py-4 rounded-xl transition-all duration-200 mt-8 flex justify-center items-center gap-2">
+                            Solicitar Estudio Gratuito
+                        </button>
+                    </form>
+
+                    <!-- Mensaje de Éxito (Oculto inicialmente) -->
+                    <div id="success-msg" class="hidden text-center py-12 transition-opacity duration-500 opacity-0">
+                        <div class="w-20 h-20 bg-primary rounded-full flex items-center justify-center mx-auto mb-6">
+                            <svg class="w-10 h-10 text-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <h4 class="text-2xl font-black mb-2">Solicitud Recibida</h4>
+                        <p class="text-gray-400">Nuestro equipo de ingeniería revisará sus datos. Si su techo califica, le llamaremos pronto.</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-gray-100 py-12 px-6 border-t border-gray-200 text-center">
+        <div class="max-w-4xl mx-auto">
+            <div class="flex items-center justify-center gap-2 mb-6">
+                <svg class="text-primary w-6 h-6" fill="#cd7f32" viewBox="0 0 24 24" stroke="none"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                <span class="text-xl font-black text-gray-800 tracking-tight">Test<span class="text-primary">Energy</span></span>
+            </div>
+            <p class="text-gray-500 text-sm mb-4">
+                Transformando la energía en Mérida, Yucatán. 
+            </p>
+            <p class="text-gray-400 text-xs">
+                &copy; <span id="year"></span> Test Energy. Todos los derechos reservados. <br/>
+                Este sitio no está afiliado a CFE. Los cálculos de ahorro son estimaciones basadas en proyecciones inflacionarias históricas.
+            </p>
+        </div>
+    </footer>
+
+    <!-- LOGIC SCRIPT (Vanilla JS for extreme performance) -->
+    <script>
+        // 1. Set current year
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // 2. Calculator Logic
+        const slider = document.getElementById('bill-slider');
+        const displayBill = document.getElementById('bill-display');
+        const displayLoss = document.getElementById('loss-display');
+
+        function updateCalculator() {
+            const bill = parseInt(slider.value);
+            // Format money
+            displayBill.textContent = '$' + bill.toLocaleString('es-MX') + ' MXN';
+            
+            // Formula: Bill * 6 (bimonthly to yearly) * 10 years * 1.4 (40% inflation)
+            const loss = bill * 6 * 10 * 1.4;
+            displayLoss.textContent = '$' + loss.toLocaleString('es-MX', {maximumFractionDigits: 0}) + ' MXN*';
+        }
+
+        slider.addEventListener('input', updateCalculator);
+        updateCalculator(); // Initialize on load
+
+        // 3. Form Submission Logic
+        const form = document.getElementById('lead-form');
+        const submitBtn = document.getElementById('submit-btn');
+        const successMsg = document.getElementById('success-msg');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault(); // Prevent page reload
+            
+            // UI State: Submitting
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Procesando...';
+            submitBtn.classList.add('opacity-70');
+
+            // Simulate API request
+            setTimeout(() => {
+                form.style.display = 'none';
+                successMsg.style.display = 'block';
+                // Small delay to allow display:block to render before fading in
+                setTimeout(() => {
+                    successMsg.classList.remove('opacity-0');
+                    successMsg.classList.add('opacity-100');
+                }, 50);
+            }, 1500);
+        });
+
+        // 4. Scroll Reveal Animations (Intersection Observer instead of Framer Motion)
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px 0px -100px 0px', // Trigger slightly before the element enters
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target); // Run once
+                }
+            });
+        }, observerOptions);
+
+        // Select all elements to animate
+        document.querySelectorAll('.reveal, .reveal-left, .reveal-scale').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
 </body>
 </html>
