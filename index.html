@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuñez Fumigaciones - Diagnóstico Gratuito</title>
+    
+    <!-- ======================================================= -->
+    <!-- 🟢 1. PEGA TU PÍXEL DE META (FACEBOOK) AQUÍ DEBAJO      -->
+    <!-- ======================================================= -->
+    <!-- Ejemplo: <script> !function(f,b,e,v,n,t,s) ... </script> -->
+
+
+
+    <!-- ======================================================= -->
+    <!-- 🟢 2. PEGA TU PÍXEL DE GOOGLE ANALYTICS/ADS AQUÍ DEBAJO -->
+    <!-- ======================================================= -->
+    <!-- Ejemplo: <script async src="https://www.googletagmanager...></script> -->
+
+
+
+    <!-- Cargar Tailwind CSS y React -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body class="bg-slate-50 font-sans text-slate-800">
+    
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState } = React;
+
+        // Componentes de Iconos
+        const Icon = ({ path, className }) => (
+            <svg className={className} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" dangerouslySetInnerHTML={{ __html: path }}></svg>
+        );
+        const ShieldCheck = ({className}) => <Icon className={className} path='<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/>' />;
+        const Bug = ({className}) => <Icon className={className} path='<path d="m8 2 1.88 1.88"/><path d="M14.12 3.88 16 2"/><path d="M9 7.13v-1a3.003 3.003 0 1 1 6 0v1"/><path d="M12 20c-3.3 0-6-2.7-6-6v-3a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v3c0 3.3-2.7 6-6 6"/><path d="M12 20v-9"/><path d="M6.53 9C4.6 8.8 3 7.1 3 5"/><path d="M6 13H2"/><path d="M3 21c0-2.1 1.7-3.9 3.8-4"/><path d="M17.47 9c1.93-.2 3.53-1.9 3.53-4"/><path d="M18 13h4"/><path d="M21 21c0-2.1-1.7-3.9-3.8-4"/>' />;
+        const Home = ({className}) => <Icon className={className} path='<path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>' />;
+        const Clock = ({className}) => <Icon className={className} path='<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>' />;
+        const ArrowRight = ({className}) => <Icon className={className} path='<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>' />;
+        const CheckCircle2 = ({className}) => <Icon className={className} path='<circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>' />;
+        const Star = ({className}) => <svg className={className} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>;
+        const ShieldAlert = ({className}) => <Icon className={className} path='<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M12 8v4"/><path d="M12 16h.01"/>' />;
+        const ChevronRight = ({className}) => <Icon className={className} path='<path d="m9 18 6-6-6-6"/>' />;
+        const MapPin = ({className}) => <Icon className={className} path='<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>' />;
+        const Phone = ({className}) => <Icon className={className} path='<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>' />;
+
+        function App() {
+            const [step, setStep] = useState(0);
+            const [isSubmitting, setIsSubmitting] = useState(false);
+            const [answers, setAnswers] = useState({
+                plaga: '',
+                ubicacion: '',
+                tiempo: '',
+                nombre: '',
+                telefono: ''
+            });
+            const [showOffer, setShowOffer] = useState(false);
+
+            const handleOptionSelect = (field, value) => {
+                setAnswers(prev => ({ ...prev, [field]: value }));
+                setStep(prev => prev + 1);
+            };
+
+            // =========================================================================
+            // 🟢 3. CONEXIÓN CON MAKE.COM (INTEGROMAT)
+            // =========================================================================
+            const handleFormSubmit = async (e) => {
+                e.preventDefault();
+                setIsSubmitting(true);
+
+                // REEMPLAZA ESTA URL CON TU WEBHOOK DE MAKE.COM
+                const MAKE_WEBHOOK_URL = "https://hook.us1.make.com/tu-codigo-unico-de-webhook";
+
+                try {
+                    // Enviamos los datos capturados a Make
+                    await fetch(MAKE_WEBHOOK_URL, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(answers)
+                    });
+                    console.log("✅ Datos enviados a Make correctamente");
+                } catch (error) {
+                    console.error("❌ Error enviando a Make:", error);
+                    // Aunque falle Make, no queremos bloquear al usuario, así que seguimos adelante.
+                }
+
+                setIsSubmitting(false);
+                setShowOffer(true); // Mostramos la oferta irresistible
+            };
+
+            const whatsappNumber = "529990000000"; 
+            const whatsappMessage = encodeURIComponent(`Hola, acabo de completar el diagnóstico. Mi nombre es ${answers.nombre}, tengo un problema de ${answers.plaga} y quiero reservar el paquete Escudo Mérida por $990 MXN.`);
+
+            return (
+                <div className="min-h-screen flex flex-col">
+                    
+                    <header className="bg-white border-b border-slate-200 sticky top-0 z-50">
+                        <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+                            <div className="flex items-center gap-2">
+                                <ShieldCheck className="text-blue-600 w-8 h-8" />
+                                <span className="text-xl font-bold tracking-tight text-slate-900">Nuñez Fumigaciones</span>
+                            </div>
+                            <div className="hidden sm:flex items-center gap-2 text-sm font-semibold text-slate-600 bg-slate-100 px-3 py-1.5 rounded-full">
+                                <MapPin className="w-4 h-4 text-blue-600" />
+                                Solo en Mérida, Yucatán
+                            </div>
+                        </div>
+                    </header>
+
+                    <div className="flex-grow">
+                    {!showOffer ? (
+                        <main className="max-w-4xl mx-auto px-4 py-12 md:py-20">
+                            <div className="text-center mb-10">
+                                <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight mb-4 leading-tight">
+                                    Descubre qué plaga amenaza tu hogar y <span className="text-blue-600">cómo eliminarla para siempre.</span>
+                                </h1>
+                                <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto">
+                                    Realiza este diagnóstico de 30 segundos para recibir un plan de acción exacto y un presupuesto personalizado. Gratis y sin compromiso.
+                                </p>
+                            </div>
+
+                            <div className="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden max-w-2xl mx-auto transition-all">
+                                <div className="bg-blue-600 h-2 w-full">
+                                    <div className="bg-green-400 h-full transition-all duration-500 ease-in-out" style={{ width: `${(step / 4) * 100}%` }}></div>
+                                </div>
+                                
+                                <div className="p-6 md:p-10">
+                                    {step === 0 && (
+                                        <div className="animate-fade-in">
+                                            <h2 className="text-2xl font-bold mb-6 flex items-center gap-3">
+                                                <Bug className="text-blue-600 w-6 h-6" /> ¿Qué has visto en tu casa últimamente?
+                                            </h2>
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                                {['Cucarachas', 'Hormigas', 'Mosquitos / Dengue', 'Termitas', 'Roedores', 'No estoy seguro'].map((item) => (
+                                                    <button key={item} onClick={() => handleOptionSelect('plaga', item)} className="p-4 border-2 border-slate-200 rounded-xl text-left font-semibold text-slate-700 hover:border-blue-600 hover:bg-blue-50 transition-colors flex justify-between items-center group">
+                                                        {item} <ChevronRight className="w-5 h-5 text-slate-400 group-hover:text-blue-600" />
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {step === 1 && (
+                                        <div className="animate-fade-in">
+                                            <h2 className="text-2xl font-bold mb-6 flex items-center gap-3">
+                                                <Home className="text-blue-600 w-6 h-6" /> ¿Dónde es el problema principal?
+                                            </h2>
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                                {['Cocina y Baños', 'Jardín y Exteriores', 'Habitaciones', 'Techos / Madera', 'En toda la casa'].map((item) => (
+                                                    <button key={item} onClick={() => handleOptionSelect('ubicacion', item)} className="p-4 border-2 border-slate-200 rounded-xl text-left font-semibold text-slate-700 hover:border-blue-600 hover:bg-blue-50 transition-colors flex justify-between items-center group">
+                                                        {item} <ChevronRight className="w-5 h-5 text-slate-400 group-hover:text-blue-600" />
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {step === 2 && (
+                                        <div className="animate-fade-in">
+                                            <h2 className="text-2xl font-bold mb-6 flex items-center gap-3">
+                                                <Clock className="text-blue-600 w-6 h-6" /> ¿Hace cuánto notaste el problema?
+                                            </h2>
+                                            <div className="grid grid-cols-1 gap-4">
+                                                {['Acaba de empezar (Menos de 1 semana)', 'Un par de semanas (Ya intenté insecticidas)', 'Lleva meses (Es una plaga persistente)'].map((item) => (
+                                                    <button key={item} onClick={() => handleOptionSelect('tiempo', item)} className="p-4 border-2 border-slate-200 rounded-xl text-left font-semibold text-slate-700 hover:border-blue-600 hover:bg-blue-50 transition-colors flex justify-between items-center group">
+                                                        {item} <ChevronRight className="w-5 h-5 text-slate-400 group-hover:text-blue-600" />
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {step === 3 && (
+                                        <div className="animate-fade-in">
+                                            <div className="text-center mb-6">
+                                                <ShieldAlert className="w-16 h-16 text-green-500 mx-auto mb-4" />
+                                                <h2 className="text-2xl font-bold mb-2">¡Diagnóstico Listo!</h2>
+                                                <p className="text-slate-600">Basado en tus respuestas, tenemos la solución exacta para tu problema de <strong>{answers.plaga}</strong>. Ingresa tus datos para ver tu reporte y desbloquear una oferta especial.</p>
+                                            </div>
+                                            
+                                            <form onSubmit={handleFormSubmit} className="space-y-4">
+                                                <div>
+                                                    <label className="block text-sm font-semibold mb-1 text-slate-700">Tu Nombre</label>
+                                                    <input type="text" required className="w-full p-4 border-2 border-slate-200 rounded-xl focus:outline-none focus:border-blue-600" placeholder="Ej. Carlos Pérez" value={answers.nombre} onChange={(e) => setAnswers({...answers, nombre: e.target.value})} />
+                                                </div>
+                                                <div>
+                                                    <label className="block text-sm font-semibold mb-1 text-slate-700">Teléfono (WhatsApp)</label>
+                                                    <input type="tel" required className="w-full p-4 border-2 border-slate-200 rounded-xl focus:outline-none focus:border-blue-600" placeholder="Ej. 999 123 4567" value={answers.telefono} onChange={(e) => setAnswers({...answers, telefono: e.target.value})} />
+                                                </div>
+                                                <button type="submit" disabled={isSubmitting} className="w-full bg-blue-600 text-white font-bold text-lg p-4 rounded-xl hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200 flex items-center justify-center gap-2 mt-4 disabled:opacity-70">
+                                                    {isSubmitting ? 'Analizando...' : 'Ver mi Solución Exacta'} <ArrowRight className="w-5 h-5" />
+                                                </button>
+                                                <p className="text-xs text-center text-slate-400 mt-3">
+                                                    Tus datos están 100% seguros. No te enviaremos spam.
+                                                </p>
+                                            </form>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        </main>
+                    ) : (
+                        <main className="animate-fade-in pb-20">
+                            <div className="bg-red-600 text-white text-center py-3 px-4 font-medium">
+                                🔥 <strong>Atención {answers.nombre}:</strong> Por la temporada de calor en Mérida, los problemas de {answers.plaga || 'plagas'} empeoran. Solo aceptamos 15 servicios nuevos esta semana.
+                            </div>
+
+                            <div className="max-w-5xl mx-auto px-4 py-12">
+                                <div className="text-center mb-12">
+                                    <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 leading-tight">
+                                        Aquí tienes tu Plan de Ataque.
+                                    </h2>
+                                    <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+                                        La mayoría rocían agua con olor, te cobran y desaparecen cuando los insectos vuelven. <strong className="text-blue-600">Nosotros no.</strong>
+                                    </p>
+                                </div>
+
+                                <div className="bg-white rounded-3xl shadow-xl border border-slate-200 overflow-hidden lg:flex mb-12">
+                                    <div className="p-8 lg:w-3/5">
+                                        <h3 className="text-2xl font-bold mb-6 text-slate-900">El Paquete "Escudo Mérida" 🛡️</h3>
+                                        <p className="text-slate-600 mb-8">Diseñado específicamente para el clima húmedo de Yucatán y para erradicar tu problema de {answers.plaga}, sin riesgo para mascotas o familia.</p>
+                                        
+                                        <ul className="space-y-4">
+                                            <li className="flex items-start gap-4">
+                                                <div className="bg-green-100 p-1 rounded-full shrink-0 mt-1"><CheckCircle2 className="w-5 h-5 text-green-600" /></div>
+                                                <div>
+                                                    <h4 className="font-bold text-slate-900">Fumigación Profunda Interior y Exterior</h4>
+                                                    <p className="text-sm text-slate-600">Eliminación total en nidos y criaderos. Productos de grado hospitalario.</p>
+                                                    <span className="text-xs font-semibold text-slate-400 line-through">Valor: $1,200 MXN</span>
+                                                </div>
+                                            </li>
+                                            <li className="flex items-start gap-4">
+                                                <div className="bg-green-100 p-1 rounded-full shrink-0 mt-1"><CheckCircle2 className="w-5 h-5 text-green-600" /></div>
+                                                <div>
+                                                    <h4 className="font-bold text-slate-900">Barrera Química Perimetral</h4>
+                                                    <p className="text-sm text-slate-600">Evita que nuevas plagas de los vecinos o la calle entren a tu propiedad.</p>
+                                                    <span className="text-xs font-semibold text-slate-400 line-through">Valor: $800 MXN</span>
+                                                </div>
+                                            </li>
+                                            <li className="flex items-start gap-4">
+                                                <div className="bg-blue-100 p-1 rounded-full shrink-0 mt-1"><Star className="w-5 h-5 text-blue-600" /></div>
+                                                <div>
+                                                    <h4 className="font-bold text-slate-900">BONO: Refuerzo Anti-Mosquitos</h4>
+                                                    <p className="text-sm text-slate-600">Tratamiento para patios que protege a tu familia del Dengue.</p>
+                                                    <span className="text-xs font-semibold text-slate-400 line-through">Valor: $600 MXN</span>
+                                                </div>
+                                            </li>
+                                        </ul>
+
+                                        <div className="mt-8 p-5 bg-blue-50 rounded-xl border border-blue-100">
+                                            <div className="flex items-center gap-3 mb-2">
+                                                <ShieldCheck className="w-6 h-6 text-blue-600" />
+                                                <h4 className="font-bold text-lg text-slate-900">Garantía Incondicional de 30 Días</h4>
+                                            </div>
+                                            <p className="text-sm text-slate-700">
+                                                Nuestra promesa es simple: <strong>Si ves un solo bicho vivo en los siguientes 30 días, regresamos y re-fumigamos GRATIS.</strong> Cero riesgos para ti.
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div className="bg-slate-900 text-white p-8 lg:w-2/5 flex flex-col justify-center relative overflow-hidden">
+                                        <div className="absolute -top-10 -right-10 opacity-10">
+                                            <Bug className="w-48 h-48" />
+                                        </div>
+                                        
+                                        <h3 className="text-xl font-medium text-slate-300 mb-2 z-10">Valor Total: <span className="line-through text-red-400">$2,600 MXN</span></h3>
+                                        <div className="mb-6 z-10">
+                                            <span className="text-sm font-semibold uppercase tracking-wider text-blue-400">Oferta Exclusiva Hoy</span>
+                                            <div className="text-5xl font-black mt-1">$990 <span className="text-xl font-medium text-slate-400">MXN</span></div>
+                                        </div>
+                                        
+                                        <a href={`https://wa.me/${whatsappNumber}?text=${whatsappMessage}`} target="_blank" rel="noreferrer" className="w-full bg-green-500 hover:bg-green-400 text-slate-900 text-center font-extrabold text-lg p-5 rounded-xl transition-all hover:scale-105 shadow-xl shadow-green-500/20 z-10 flex items-center justify-center gap-2">
+                                            <Phone className="w-5 h-5" /> Reservar por WhatsApp
+                                        </a>
+                                        
+                                        <p className="text-sm text-center text-slate-400 mt-4 z-10">
+                                            Respuesta rápida. Sin cargos ocultos.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div className="mt-16 text-center">
+                                    <h3 className="text-2xl font-bold text-slate-900 mb-8">Por qué familias en Mérida confían en nosotros:</h3>
+                                    <div className="grid md:grid-cols-3 gap-6 text-left">
+                                        {[
+                                            { name: "María F. (Norte de Mérida)", text: "Solo Nuñez Fumigaciones resolvió el problema de raíz. No huele a químicos feos." },
+                                            { name: "Jorge M. (Cholul)", text: "El bono de mosquitos es real. Por fin pudimos salir al patio a cenar. Muy profesionales." },
+                                            { name: "Laura T. (Fco. de Montejo)", text: "Aplicaron su garantía al mes cuando vi unas hormiguitas, sin cobrarme un peso extra." }
+                                        ].map((testimonial, i) => (
+                                            <div key={i} className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                                                <div className="flex gap-1 mb-3 text-yellow-400">
+                                                    <Star className="w-4 h-4" /><Star className="w-4 h-4" /><Star className="w-4 h-4" /><Star className="w-4 h-4" /><Star className="w-4 h-4" />
+                                                </div>
+                                                <p className="text-slate-600 mb-4 text-sm italic">"{testimonial.text}"</p>
+                                                <p className="font-bold text-slate-900 text-sm">- {testimonial.name}</p>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        </main>
+                    )}
+                    </div>
+
+                    <footer className="bg-slate-900 text-slate-400 py-8 text-center text-sm mt-auto">
+                        <div className="max-w-4xl mx-auto px-4 flex flex-col items-center">
+                            <ShieldCheck className="w-8 h-8 text-slate-600 mb-4" />
+                            <p>© {new Date().getFullYear()} Nuñez Fumigaciones. Mérida, Yucatán.</p>
+                            <p className="mt-2 text-slate-500">Protegiendo tu hogar, tu salud y tu tranquilidad.</p>
+                        </div>
+                    </footer>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+    
+    <style>
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</body>
+</html>
